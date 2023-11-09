@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 
 class LaporanKerusakanPage extends StatefulWidget {
   @override
@@ -7,8 +6,7 @@ class LaporanKerusakanPage extends StatefulWidget {
 }
 
 class _LaporanKerusakanPageState extends State<LaporanKerusakanPage> {
-  String selectedKerusakanType =
-      'RUSAK SEBAGIAN'; // Default selected kerusakan type
+  String selectedKerusakanType = 'RUSAK SEBAGIAN';
   String uraianKerusakan = '';
   bool pernahRusakSebelumnya = false;
   int estimasiPerbaikan = 0;
@@ -20,50 +18,55 @@ class _LaporanKerusakanPageState extends State<LaporanKerusakanPage> {
       appBar: AppBar(
         backgroundColor: Color(0xFF222736),
         elevation: 0,
-        title: Row(
-          children: <Widget>[
-            Container(
-              width: 48,
-              height: 48,
-              child: Image.asset(
-                './assets/logo.png',
-                width: 48,
-                height: 48,
-                color: Colors.white,
-              ),
-            ),
-            SizedBox(width: 8),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  'Deal Management',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-                Text(
-                  'Asset Management',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.white70,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
+        title: _buildAppBarTitle(),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            SizedBox(height: 16.0), // Adjusted spacing
+            SizedBox(height: 16.0),
             _buildLaporanContent(),
           ],
         ),
       ),
+    );
+  }
+
+  // Membuat widget untuk judul AppBar
+  Widget _buildAppBarTitle() {
+    return Row(
+      children: <Widget>[
+        Container(
+          width: 48,
+          height: 48,
+          child: Image.asset(
+            './assets/logo.png',
+            width: 48,
+            height: 48,
+            color: Colors.white,
+          ),
+        ),
+        SizedBox(width: 8),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              'Deal Management',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+            Text(
+              'Asset Management',
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.white70,
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 
@@ -79,7 +82,7 @@ class _LaporanKerusakanPageState extends State<LaporanKerusakanPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            'Nama Aset: Nama Aset Anda', // Ganti dengan nama aset yang sesuai
+            'Nama Aset: Nama Aset Anda',
             style: TextStyle(
               fontSize: 18.0,
               fontWeight: FontWeight.bold,
@@ -87,7 +90,7 @@ class _LaporanKerusakanPageState extends State<LaporanKerusakanPage> {
           ),
           SizedBox(height: 16.0),
           Text(
-            'Deskripsi Aset: Deskripsi Aset Anda', // Ganti dengan deskripsi aset yang sesuai
+            'Deskripsi Aset: Deskripsi Aset Anda',
             style: TextStyle(fontSize: 16.0),
           ),
           SizedBox(height: 24.0),
@@ -95,24 +98,7 @@ class _LaporanKerusakanPageState extends State<LaporanKerusakanPage> {
             'Jenis Kerusakan:',
             style: TextStyle(fontSize: 16.0),
           ),
-          DropdownButton<String>(
-            value: selectedKerusakanType,
-            onChanged: (String? newValue) {
-              setState(() {
-                selectedKerusakanType = newValue!;
-              });
-            },
-            items: <String>[
-              'RUSAK SEBAGIAN',
-              'RUSAK SEDANG',
-              'RUSAK PARAH',
-            ].map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
-          ),
+          _buildDropdownKerusakanType(),
           SizedBox(height: 24.0),
           Text(
             'Uraian Kerusakan:',
@@ -134,47 +120,87 @@ class _LaporanKerusakanPageState extends State<LaporanKerusakanPage> {
             'Pernah Rusak Sebelumnya:',
             style: TextStyle(fontSize: 16.0),
           ),
-          Row(
-            children: <Widget>[
-              Checkbox(
-                value: pernahRusakSebelumnya,
-                onChanged: (bool? newValue) {
-                  setState(() {
-                    pernahRusakSebelumnya = newValue!;
-                  });
-                },
-              ),
-              Text('Ya'),
-            ],
-          ),
+          _buildSwitchPernahRusakSebelumnya(), // Menggunakan Switch
           SizedBox(height: 24.0),
-          ElevatedButton(
-            onPressed: () {
-              estimasiPerbaikan = hitungEstimasiPerbaikan();
-              _showEstimasiDialog();
-            },
-            child: Text('Laporkan Kerusakan'),
-          ),
+          _buildLaporkanButton(),
           SizedBox(height: 24.0),
           Text(
             'Hasil Laporan:',
             style: TextStyle(fontSize: 16.0),
           ),
-          Text('Type Kerusakan: $selectedKerusakanType'),
-          Text(
-              'Pernah Rusak Sebelumnya: ${pernahRusakSebelumnya ? 'Ya' : 'Tidak'}'),
-          Text(
-              'Estimasi Perbaikan: ${estimasiPerbaikan > 0 ? '$estimasiPerbaikan hari' : 'Belum dihitung'}'),
+          _buildHasilLaporan(),
         ],
       ),
     );
   }
 
+  // Membuat dropdown untuk jenis kerusakan
+  Widget _buildDropdownKerusakanType() {
+    return DropdownButton<String>(
+      value: selectedKerusakanType,
+      onChanged: (String? newValue) {
+        setState(() {
+          selectedKerusakanType = newValue!;
+        });
+      },
+      items: <String>[
+        'RUSAK SEBAGIAN',
+        'RUSAK SEDANG',
+        'RUSAK PARAH',
+      ].map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+    );
+  }
+
+  // Membuat Switch untuk pernah rusak sebelumnya
+  Widget _buildSwitchPernahRusakSebelumnya() {
+    return Row(
+      children: <Widget>[
+        Text('Pernah Rusak Sebelumnya: '),
+        Switch(
+          value: pernahRusakSebelumnya,
+          onChanged: (bool newValue) {
+            setState(() {
+              pernahRusakSebelumnya = newValue;
+            });
+          },
+        ),
+      ],
+    );
+  }
+
+  // Membuat tombol "Laporkan Kerusakan"
+  Widget _buildLaporkanButton() {
+    return ElevatedButton(
+      onPressed: () {
+        estimasiPerbaikan = hitungEstimasiPerbaikan();
+        _showEstimasiDialog();
+      },
+      child: Text('Laporkan Kerusakan'),
+    );
+  }
+
+  // Membuat hasil laporan (Type Kerusakan, Pernah Rusak Sebelumnya, dan Estimasi Perbaikan)
+  Widget _buildHasilLaporan() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text('Type Kerusakan: $selectedKerusakanType'),
+        Text('Pernah Rusak Sebelumnya: ${pernahRusakSebelumnya ? 'Ya' : 'Tidak'}'),
+        Text('Estimasi Perbaikan: ${estimasiPerbaikan > 0 ? '$estimasiPerbaikan hari' : 'Belum dihitung'}'),
+      ],
+    );
+  }
+
+  // Fungsi untuk menghitung estimasi perbaikan
   int hitungEstimasiPerbaikan() {
     int estimasi = 0;
 
     if (!pernahRusakSebelumnya) {
-      // Jika belum pernah rusak sebelumnya
       switch (selectedKerusakanType) {
         case 'RUSAK SEBAGIAN':
           estimasi = 2;
@@ -187,7 +213,6 @@ class _LaporanKerusakanPageState extends State<LaporanKerusakanPage> {
           break;
       }
     } else {
-      // Jika sudah pernah rusak sebelumnya
       switch (selectedKerusakanType) {
         case 'RUSAK SEBAGIAN':
           estimasi = 4;
@@ -204,6 +229,7 @@ class _LaporanKerusakanPageState extends State<LaporanKerusakanPage> {
     return estimasi;
   }
 
+  // Menampilkan dialog estimasi perbaikan
   void _showEstimasiDialog() {
     showDialog(
       context: context,
