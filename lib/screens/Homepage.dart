@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'detail_Asset.dart';
+import 'scan_qr.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -8,7 +9,14 @@ void main() {
   ));
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int _currentIndex = 0; // Ini akan digunakan untuk mengatur halaman yang aktif di BottomNavigationBar
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,7 +63,7 @@ class HomePage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 8), // Reduced the gap from 24 to 8
+            SizedBox(height: 8),
             _buildImageSlider(context),
             SizedBox(height: 24),
             Padding(
@@ -75,22 +83,64 @@ class HomePage extends StatelessWidget {
               context,
               'Judul 1',
               'Deskripsi 1 yang panjang disini. Deskripsi ini akan dipotong dan hanya beberapa kata pertama yang akan ditampilkan.',
-              'assets/image1.jpg', // Path gambar
+              'assets/image1.jpg',
             ),
             _buildCustomCard(
               context,
               'Judul 2',
               'Deskripsi 2 yang panjang disini. Deskripsi ini akan dipotong dan hanya beberapa kata pertama yang akan ditampilkan.',
-              'assets/image2.jpg', // Path gambar
+              'assets/image2.jpg',
             ),
             _buildCustomCard(
               context,
               'Judul 3',
               'Deskripsi 3 yang panjang disini. Deskripsi ini akan dipotong dan hanya beberapa kata pertama yang akan ditampilkan.',
-              'assets/image3.jpg', // Path gambar
+              'assets/image3.jpg',
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex, // Mengatur halaman aktif
+        type: BottomNavigationBarType.fixed, // Ini untuk menampilkan semua ikon
+        backgroundColor: Color(0xFF222736), // Warna latar belakang BottomNavigationBar
+        selectedItemColor: Colors.white, // Warna ikon yang aktif
+        unselectedItemColor: Colors.grey, // Warna ikon yang tidak aktif
+        onTap: (int index) {
+          // Mengatur halaman yang aktif berdasarkan indeks yang diklik
+          setState(() {
+            _currentIndex = index;
+          });
+          if (index == 2) {
+            // Jika ikon QR Code diklik, arahkan ke halaman ScanQRPage
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ScanQRPage()),
+            );
+          }
+        },
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Search',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.qr_code),
+            label: 'QR Code',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.description),
+            label: 'Document',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
+        ],
       ),
     );
   }
@@ -99,7 +149,7 @@ class HomePage extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 8.0), // Reduce the margin from 12.0 to 8.0
+      margin: EdgeInsets.symmetric(vertical: 8.0),
       width: screenWidth,
       decoration: BoxDecoration(
         boxShadow: [
@@ -248,8 +298,8 @@ class HomePage extends StatelessWidget {
           style: TextStyle(
             fontSize: 14,
           ),
-          maxLines: 2, // Display only two lines of description
-          overflow: TextOverflow.ellipsis, // Show ellipsis (...) when text overflows
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
         ),
         trailing: IconButton(
           iconSize: 30,

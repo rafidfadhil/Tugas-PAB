@@ -7,7 +7,8 @@ class LaporanKerusakanPage extends StatefulWidget {
 }
 
 class _LaporanKerusakanPageState extends State<LaporanKerusakanPage> {
-  String selectedKerusakanType = 'RUSAK SEBAGIAN'; // Default selected kerusakan type
+  String selectedKerusakanType =
+      'RUSAK SEBAGIAN'; // Default selected kerusakan type
   String uraianKerusakan = '';
   bool pernahRusakSebelumnya = false;
   int estimasiPerbaikan = 0;
@@ -160,8 +161,10 @@ class _LaporanKerusakanPageState extends State<LaporanKerusakanPage> {
             style: TextStyle(fontSize: 16.0),
           ),
           Text('Type Kerusakan: $selectedKerusakanType'),
-          Text('Pernah Rusak Sebelumnya: ${pernahRusakSebelumnya ? 'Ya' : 'Tidak'}'),
-          Text('Estimasi Perbaikan: ${estimasiPerbaikan > 0 ? '$estimasiPerbaikan hari' : 'Belum dihitung'}'),
+          Text(
+              'Pernah Rusak Sebelumnya: ${pernahRusakSebelumnya ? 'Ya' : 'Tidak'}'),
+          Text(
+              'Estimasi Perbaikan: ${estimasiPerbaikan > 0 ? '$estimasiPerbaikan hari' : 'Belum dihitung'}'),
         ],
       ),
     );
@@ -207,7 +210,8 @@ class _LaporanKerusakanPageState extends State<LaporanKerusakanPage> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Estimasi Perbaikan'),
-          content: Text('Estimasi Perbaikan: ${estimasiPerbaikan > 0 ? '$estimasiPerbaikan hari' : 'Belum dihitung'}'),
+          content: Text(
+              'Estimasi Perbaikan: ${estimasiPerbaikan > 0 ? '$estimasiPerbaikan hari' : 'Belum dihitung'}'),
           actions: <Widget>[
             TextButton(
               onPressed: () {
