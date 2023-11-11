@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'laporan_kerusakan.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class DetailAssetPage extends StatefulWidget {
-  final Map<String, String> data; // Harus diisi dengan data aset yang relevan
+  final Map<String, String> data;
 
   DetailAssetPage({required this.data});
 
@@ -13,14 +13,14 @@ class DetailAssetPage extends StatefulWidget {
 
 class _DetailAssetPageState extends State<DetailAssetPage> {
   int _currentImageIndex = 0;
-  String? kerusakanType; // Type kerusakan, bisa 'RUSAK SEBAGIAN', 'RUSAK SEDANG', atau 'RUSAK PARAH'
-  bool pernahRusakSebelumnya = false; // Status pernah rusak sebelumnya
-  int estimasiPerbaikan = 0; // Estimasi perbaikan
+  String? kerusakanType;
+  bool pernahRusakSebelumnya = false;
+  int estimasiPerbaikan = 0;
 
   List<String> imageList = [
-    'assets/image1.jpg', // Ganti dengan path gambar aset Anda
-    'assets/image2.jpg', // Ganti dengan path gambar aset Anda
-    'assets/image3.jpg', // Ganti dengan path gambar aset Anda
+    'assets/image1.jpg',
+    'assets/image2.jpg',
+    'assets/image3.jpg',
   ];
 
   @override
@@ -116,7 +116,7 @@ class _DetailAssetPageState extends State<DetailAssetPage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
-                widget.data['title'] ?? 'Judul Aset', // Ganti dengan judul aset sebenarnya
+                widget.data['title'] ?? 'Judul Aset',
                 style: TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
@@ -128,7 +128,7 @@ class _DetailAssetPageState extends State<DetailAssetPage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
-                widget.data['description'] ?? 'Deskripsi Aset', // Ganti dengan deskripsi aset sebenarnya
+                widget.data['description'] ?? 'Deskripsi Aset',
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.white,
@@ -150,40 +150,88 @@ class _DetailAssetPageState extends State<DetailAssetPage> {
             SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: ElevatedButton(
-                onPressed: () async {
-                  final result = await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => LaporanKerusakanPage(),
+              child: Center(
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 50.0,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      final result = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LaporanKerusakanPage(
+                            namaAset: widget.data['title'],
+                            deskripsiAset: widget.data['description'],
+                          ),
+                        ),
+                      );
+
+                      if (result != null && result is Map) {
+                        setState(() {
+                          kerusakanType = result['kerusakanType'];
+                          pernahRusakSebelumnya = result['pernahRusakSebelumnya'];
+                          estimasiPerbaikan = result['estimasiPerbaikan'];
+                        });
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.blue,
+                      onPrimary: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25),
+                      ),
                     ),
-                  );
-                  if (result != null && result is Map) {
-                    setState(() {
-                      kerusakanType = result['kerusakanType'];
-                      pernahRusakSebelumnya = result['pernahRusakSebelumnya'];
-                      estimasiPerbaikan = result['estimasiPerbaikan'];
-                    });
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.grey[300], // Change to match the design's color
-                  onPrimary: Colors.black, // Text color
-                  minimumSize: Size(double.infinity, 50), // Full-width and height size
-                  elevation: 0, // Remove the elevation
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25), // Rounded corners
-                  ),
-                ),
-                child: Text(
-                  'Laporkan Kerusakan',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.black, // Ensure text color is black to match the design
+                    child: Text(
+                      'Laporkan Kerusakan',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
                 ),
               ),
             ),
+            SizedBox(height: 16),
+            if (kerusakanType != null)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Hasil Laporan Kerusakan:',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      'Type Kerusakan: $kerusakanType',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Text(
+                      'Pernah Rusak Sebelumnya: ${pernahRusakSebelumnya ? 'Ya' : 'Tidak'}',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Text(
+                      'Estimasi Waktu Perbaikan: ${estimasiPerbaikan > 0 ? '$estimasiPerbaikan hari' : 'Belum dihitung'}',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
           ],
         ),
       ),

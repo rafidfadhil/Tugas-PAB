@@ -15,7 +15,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _currentIndex = 0; // Ini akan digunakan untuk mengatur halaman yang aktif di BottomNavigationBar
+  int _currentIndex =
+      0; // Ini akan digunakan untuk mengatur halaman yang aktif di BottomNavigationBar
 
   @override
   Widget build(BuildContext context) {
@@ -81,20 +82,20 @@ class _HomePageState extends State<HomePage> {
             SizedBox(height: 24),
             _buildCustomCard(
               context,
-              'Judul 1',
-              'Deskripsi 1 yang panjang disini. Deskripsi ini akan dipotong dan hanya beberapa kata pertama yang akan ditampilkan.',
+              'tanah bersalju',
+              'Tanah bersalju adalah lapisan tanah atau permukaan bumi yang ditutupi oleh lapisan salju. Ini memiliki warna putih atau abu-abu terang dan teksturnya dapat berubah-ubah sesuai dengan kondisi cuaca. Selain itu, tanah bersalju memiliki sifat isolasi yang membantu menjaga suhu di bawahnya relatif lebih hangat daripada suhu udara di atasnya, melindungi tumbuhan dan organisme di bawahnya. Namun, tanah bersalju juga dapat menghambat mobilitas manusia dan kendaraan serta memiliki peran penting dalam ekosistem musim dingin, dengan perubahan musiman yang mempengaruhi ketersediaan air dan kehidupan di dalamnya.',
               'assets/image1.jpg',
             ),
             _buildCustomCard(
               context,
-              'Judul 2',
-              'Deskripsi 2 yang panjang disini. Deskripsi ini akan dipotong dan hanya beberapa kata pertama yang akan ditampilkan.',
+              'Langit berbintang',
+              'Langit berbintang adalah pemandangan alam yang memukau yang dapat ditemui saat malam tiba. Ketika mata kita menatap langit, kita akan disambut dengan ribuan bintang yang berpendar, membentuk pola yang unik dan indah. Keindahan langit berbintang ini seringkali membuat kita terpana dan terinspirasi, mengingatkan kita akan betapa luasnya alam semesta dan misteri yang terkandung di dalamnya. Bintang-bintang tersebut mengingatkan kita akan kebesaran alam dan mengajak kita untuk merenung tentang tempat kita di dalam alam semesta yang begitu luas.',
               'assets/image2.jpg',
             ),
             _buildCustomCard(
               context,
-              'Judul 3',
-              'Deskripsi 3 yang panjang disini. Deskripsi ini akan dipotong dan hanya beberapa kata pertama yang akan ditampilkan.',
+              'Salju turun',
+              'Salju turun adalah fenomena alam yang memukau ketika butiran-butiran es kristal jatuh lembut dari langit dan menghiasi bumi dengan keindahan putihnya. Setiap butiran salju unik, menciptakan lanskap yang menakjubkan dan membawa pesona tersendiri selama musim dingin. Meskipun memberikan pemandangan yang indah, salju turun juga membawa tantangan seperti jalan yang licin dan suhu dingin yang membekukan, tetapi tak dapat disangkal bahwa salju merupakan bagian istimewa dari perubahan musim dan memiliki tempat spesial dalam hati banyak orang di seluruh dunia.',
               'assets/image3.jpg',
             ),
           ],
@@ -103,7 +104,8 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex, // Mengatur halaman aktif
         type: BottomNavigationBarType.fixed, // Ini untuk menampilkan semua ikon
-        backgroundColor: Color(0xFF222736), // Warna latar belakang BottomNavigationBar
+        backgroundColor:
+            Color(0xFF222736), // Warna latar belakang BottomNavigationBar
         selectedItemColor: Colors.white, // Warna ikon yang aktif
         unselectedItemColor: Colors.grey, // Warna ikon yang tidak aktif
         onTap: (int index) {
@@ -238,7 +240,8 @@ class _HomePageState extends State<HomePage> {
           hintStyle: TextStyle(color: Colors.white54),
           prefixIcon: Icon(Icons.search, color: Colors.white54),
           border: InputBorder.none,
-          contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 14.0),
+          contentPadding:
+              EdgeInsets.symmetric(horizontal: 20.0, vertical: 14.0),
         ),
       ),
     );
@@ -263,7 +266,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildCustomCard(BuildContext context, String title, String description, String imagePath) {
+  Widget _buildCustomCard(BuildContext context, String title,
+      String description, String imagePath) {
     final cardData = {'title': title, 'description': description};
 
     return Card(
