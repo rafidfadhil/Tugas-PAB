@@ -82,7 +82,7 @@ class _HomePageState extends State<HomePage> {
             SizedBox(height: 24),
             _buildCustomCard(
               context,
-              'tanah bersalju',
+              'Tanah bersalju',
               'Tanah bersalju adalah lapisan tanah atau permukaan bumi yang ditutupi oleh lapisan salju. Ini memiliki warna putih atau abu-abu terang dan teksturnya dapat berubah-ubah sesuai dengan kondisi cuaca. Selain itu, tanah bersalju memiliki sifat isolasi yang membantu menjaga suhu di bawahnya relatif lebih hangat daripada suhu udara di atasnya, melindungi tumbuhan dan organisme di bawahnya. Namun, tanah bersalju juga dapat menghambat mobilitas manusia dan kendaraan serta memiliki peran penting dalam ekosistem musim dingin, dengan perubahan musiman yang mempengaruhi ketersediaan air dan kehidupan di dalamnya.',
               'assets/image1.jpg',
             ),
