@@ -3,8 +3,9 @@ import './screens/Homepage.dart';
 import './screens/detail_asset.dart';
 import './screens/laporan_kerusakan.dart';
 import './screens/scan_qr.dart';
-import './screens/login_page.dart'; // Pastikan Anda telah membuat file ini
-import './screens/register_page.dart'; // Pastikan Anda telah membuat file ini
+import './screens/login_page.dart';
+import './screens/register_page.dart';
+import './screens/add_asset_page.dart'; // Pastikan Anda telah membuat file ini
 
 void main() {
   runApp(MyApp());
@@ -15,8 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Asset Management App',
-      debugShowCheckedModeBanner:
-          false, // Menetapkan ini ke false untuk menghilangkan banner debug
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -27,8 +27,10 @@ class MyApp extends StatelessWidget {
         '/detailasset': (context) => DetailAssetPage(data: {}),
         '/laporankerusakan': (context) => LaporanKerusakanPage(),
         '/scanqr': (context) => ScanQRPage(),
-        '/login': (context) => LoginPage(), // Tambahkan ini
-        '/register': (context) => RegisterPage(), // Tambahkan ini
+        '/login': (context) => LoginPage(),
+        '/register': (context) => RegisterPage(),
+        '/addasset': (context) =>
+            AddAssetPage(), // Rute untuk halaman penambahan aset
       },
       initialRoute: '/login', // Atur rute awal ke halaman login
     );
