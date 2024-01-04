@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:uts_pengembangan_aplikasi/providers/auth_provider.dart';
 import './screens/Homepage.dart';
 import './screens/detail_asset.dart';
 import './screens/laporan_kerusakan.dart';
@@ -8,31 +10,38 @@ import './screens/register_page.dart';
 import './screens/add_asset_page.dart'; // Pastikan Anda telah membuat file ini
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Asset Management App',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => AuthProvider()),
+      ],
+      child: MaterialApp(
+        title: 'Asset Management App',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        // Define the routes
+        routes: {
+          '/': (context) => HomePage(),
+          '/detailasset': (context) => DetailAssetPage(data: {}),
+          '/laporankerusakan': (context) => LaporanKerusakanPage(),
+          '/scanqr': (context) => ScanQRPage(),
+          '/login': (context) => LoginPage(),
+          '/register': (context) => const RegisterPage(),
+          '/addasset': (context) =>
+              AddAssetPage(), // Rute untuk halaman penambahan aset
+        },
+        initialRoute: '/login', // Atur rute awal ke halaman login
       ),
-      // Define the routes
-      routes: {
-        '/': (context) => HomePage(),
-        '/detailasset': (context) => DetailAssetPage(data: {}),
-        '/laporankerusakan': (context) => LaporanKerusakanPage(),
-        '/scanqr': (context) => ScanQRPage(),
-        '/login': (context) => LoginPage(),
-        '/register': (context) => RegisterPage(),
-        '/addasset': (context) =>
-            AddAssetPage(), // Rute untuk halaman penambahan aset
-      },
-      initialRoute: '/login', // Atur rute awal ke halaman login
     );
   }
 }
