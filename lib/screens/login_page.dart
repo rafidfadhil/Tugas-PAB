@@ -1,10 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:uts_pengembangan_aplikasi/providers/auth_provider.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
+
+  TextEditingController emailController = TextEditingController(text: '');
+
+  TextEditingController passwordController = TextEditingController(text: '');
+
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    handleSignIn() async {
+      setState(() {
+        isLoading = true;
+      });
+      if (await authProvider.login(
+          email: emailController.text, password: passwordController.text)) {
+        Navigator.pushNamed(context, '/register');
+      } else {
+        print(passwordController.text);
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            backgroundColor: Colors.red,
+            content: Text(
+              'Gagal Register',
+              textAlign: TextAlign.center,
+            )));
+      }
+
+      setState(() {
+        isLoading = false;
+      });
+    }
+
     return Scaffold(
       backgroundColor: Color(0xFF2D2F41), // Background color
       appBar: AppBar(
@@ -19,6 +57,7 @@ class LoginPage extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               TextFormField(
+                controller: emailController,
                 decoration: InputDecoration(
                   labelText: 'Email',
                   labelStyle: TextStyle(color: Colors.white), // Text color
@@ -37,6 +76,7 @@ class LoginPage extends StatelessWidget {
               ),
               SizedBox(height: 8.0),
               TextFormField(
+                controller: passwordController,
                 decoration: InputDecoration(
                   labelText: 'Password',
                   labelStyle: TextStyle(color: Colors.white), // Text color
@@ -61,12 +101,13 @@ class LoginPage extends StatelessWidget {
                   primary: Colors.blue, // Button background color
                   onPrimary: Colors.white, // Button text color
                 ),
-                child: Text('Login'),
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    // TODO: Implement login logic
-                  }
-                },
+                child: isLoading
+                    ? CircularProgressIndicator(
+                        strokeWidth: 2,
+                        valueColor: AlwaysStoppedAnimation(Colors.white),
+                      )
+                    : Text('Login'),
+                onPressed: handleSignIn,
               ),
               TextButton(
                 style: TextButton.styleFrom(
